@@ -8,10 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -23,8 +28,19 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public static TankDrive tankDriveSubsystem = new TankDrive(); 
 
+  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  //TANK DRIVE MOTORS
+  public static WPI_TalonSRX frontLeft = new WPI_TalonSRX(5); 
+  public static WPI_TalonSRX middleLeft = new WPI_TalonSRX(122); 
+  public static WPI_TalonSRX rearLeft = new WPI_TalonSRX(3); 
+
+  public static WPI_TalonSRX frontRight = new WPI_TalonSRX(23); 
+  public static WPI_TalonSRX middleRight = new WPI_TalonSRX(99);//11
+  public static WPI_VictorSPX rearRight = new WPI_VictorSPX(6);
+
+  public static Joystick stick = new Joystick(0); 
 
 
   /**
@@ -55,3 +71,4 @@ public class RobotContainer {
     return m_autoCommand;
   }
 }
+
