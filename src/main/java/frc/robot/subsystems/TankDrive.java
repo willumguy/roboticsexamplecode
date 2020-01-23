@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
+
 
 public class TankDrive extends SubsystemBase {
   /**
@@ -17,8 +18,12 @@ public class TankDrive extends SubsystemBase {
 
   DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
 
+  public PIDController pid = new PIDController(0, 0, 0);
+
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
+    pid.setTolerance(256); //Error is within 1/4 of a revolution
+    
   }
 
   public void init() { // middleLeft and middleRight motor must go in opposite directions from the rest of the motors.
@@ -63,6 +68,15 @@ public class TankDrive extends SubsystemBase {
     RobotContainer.frontRight.stopMotor();
     RobotContainer.middleRight.stopMotor();
     RobotContainer.rearRight.stopMotor();
+  }
+
+  public void driveDistance(double distance) {
+    double count = distance * (1024 / (6 * Math.PI));
+    pid.setSetpoint(count);
+    difDrive.arcadeDrive(
+      pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), count) ,
+      0
+      );
   }
 
   @Override

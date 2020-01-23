@@ -9,7 +9,7 @@ import frc.robot.RobotContainer;
  */
 public class DriveCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final TankDrive tankDriveSubsysten;
+  private final TankDrive tankDriveSubsystem;
 
   /**
    * Creates a new ExampleCommand.
@@ -17,7 +17,7 @@ public class DriveCommand extends CommandBase {
    * @param subsystem The subsystem used by this command.
    */
   public DriveCommand(TankDrive subsystem) {
-    tankDriveSubsysten = subsystem;
+    tankDriveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -37,9 +37,7 @@ public class DriveCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      if (interrupted) {
         RobotContainer.tankDriveSubsystem.stop();    
-      }
   }
 
   // Returns true when the command should end.
