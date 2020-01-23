@@ -8,9 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj.Joystick;
+import frc.robot.subsystems.IntakeMotorSubsystem;
+import frc.robot.subsystems.Motor;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -20,12 +20,22 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public static final int IntakeMotorPort = 0;
+// The robot's subsystems and commands are defined here...
+  public final IntakeMotorSubsystem m_Motor = new IntakeMotorSubsystem();
+  public final Motor motorSub = new Motor();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  Command m_autoCommand;
+ 
 
+  // Creates a joystick on port 1
+  public static final Joystick stick = new Joystick(1);
+  
+  /// Creates an XboxController on port 2.
+    //XboxController exampleController = new XboxController(2); 
 
+  // Creates a new JoystickButton object for button 1 on exampleStick
+    //JoystickButton exampleButton = new JoystickButton(exampleStick, 1); 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -34,6 +44,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
+  
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -41,7 +52,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  
   private void configureButtonBindings() {
+    // Binds an ExampleCommand to be scheduled when the trigger of the example joystick is pressed
+      //exampleButton.whenPressed(new ExampleCommand());
+
   }
 
 
