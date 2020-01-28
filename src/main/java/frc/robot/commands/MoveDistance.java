@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.TankDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -24,28 +25,32 @@ public class MoveDistance extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public MoveDistance(TankDrive subsystem, double distance) {
+  public MoveDistance(TankDrive subsystem, double pdistance) {
     tankDriveSubsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
-    this.distance = distance;
+    distance = pdistance;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    RobotContainer.middleLeft.setSelectedSensorPosition(0);
+    tankDriveSubsystem.driveDistance(distance);
+
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.tankDriveSubsystem.driveDistance(distance);
+    SmartDashboard.putBoolean("moving", true);
+    tankDriveSubsystem.updateDrive();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    tankDriveSubsystem.stop();
   }
 
   // Returns true when the command should end.

@@ -2,50 +2,40 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
 
 
 public class TankDrive extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  SpeedControllerGroup leftSide = new SpeedControllerGroup(RobotContainer.frontLeft, RobotContainer.middleLeft, RobotContainer.rearLeft);
+  
+ 
+   
+  //private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(0, 0.5);
 
-  SpeedControllerGroup rightSide = new SpeedControllerGroup(RobotContainer.frontRight, RobotContainer.middleRight, RobotContainer.rearRight);
-
-  DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
-
-  public PIDController pid = new PIDController(0, 0, 0);
+  public final PIDController pid = new PIDController(1, 0, 0);
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
-    pid.setTolerance(256); //Error is within 1/4 of a revolution
+    pid.setTolerance(128); //Error is within 1/8 of a revolution
+    
     
   }
 
-  public void init() { // middleLeft and middleRight motor must go in opposite directions from the rest of the motors.
-    RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
-    RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
-  
-    RobotContainer.frontLeft.setInverted(true);
-    RobotContainer.rearLeft.setInverted(true);
-    
-    RobotContainer.frontRight.follow(RobotContainer.middleRight);
-    RobotContainer.rearRight.follow(RobotContainer.middleRight); 
-
-    RobotContainer.frontRight.setInverted(true);
-    RobotContainer.rearRight.setInverted(true);
-  }
 
   public void driveWithJoystick() {
     //ONE JOYSTICK
     //make sure throttle is at 1 or -1
-    double forward = (RobotContainer.stick.getY()*0.8)*RobotContainer.stick.getThrottle();
-    double turn = (RobotContainer.stick.getZ()*-0.8);
-
+    double forward = (RobotContainer.stick.getY())*.8;
+    double turn = (RobotContainer.stick.getZ())*.8;
 
     /*deadband*/
     
@@ -56,33 +46,46 @@ public class TankDrive extends SubsystemBase {
 
     else 
     {
-      difDrive.arcadeDrive(forward, turn);
+      RobotContainer.difDrive.arcadeDrive(forward, turn);
     }
+    
+    
   }
+  
+  
 
   public void stop() {
-    RobotContainer.frontLeft.stopMotor();
-    RobotContainer.middleLeft.stopMotor();
-    RobotContainer.rearLeft.stopMotor();
-
-    RobotContainer.frontRight.stopMotor();
-    RobotContainer.middleRight.stopMotor();
-    RobotContainer.rearRight.stopMotor();
+    RobotContainer.difDrive.arcadeDrive(0, 0);
   }
+  
+
 
   public void driveDistance(double distance) {
-    double count = distance * (1024 / (6 * Math.PI));
+    double count = -distance * (1024 / (6 * Math.PI));
+    RobotContainer.middleLeft.setSelectedSensorPosition(0);
     pid.setSetpoint(count);
-    difDrive.arcadeDrive(
-      pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), count) ,
-      0
-      );
+    
+    
   }
+  public void updateDrive() {
+    double output = pid.calculate(RobotContainer.middleLeft.getSelectedSensorPosition(), pid.getSetpoint());
+    SmartDashboard.putNumber("count", pid.getSetpoint());
+    SmartDashboard.putNumber("current count", RobotContainer.middleLeft.getSelectedSensorPosition());
 
+    
+    if (output > 0.4) {
+      output = 0.4;
+    }
+    if (output < -0.4) {
+      output = -0.4;
+    }
+    RobotContainer.difDrive.arcadeDrive(output, 0);
+  }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
   }
+  
 
 }
