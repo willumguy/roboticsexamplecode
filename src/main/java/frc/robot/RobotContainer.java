@@ -8,9 +8,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeMotor;
+import frc.robot.subsystems.OuttakeMotor;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -22,10 +25,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  public final OuttakeMotor motorSub = new OuttakeMotor();
+  public final IntakeMotor imotor = new IntakeMotor();
 
+  
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
+  // Creates a joystick on port 1
+  public final Joystick stick = new Joystick(1);
+  
+  // Creates an XboxController on port 2.
+    //XboxController exampleController = new XboxController(2); 
 
+  // Creates a new JoystickButton object for button 1 on exampleStick
+    //JoystickButton exampleButton = new JoystickButton(exampleStick, 1); 
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -34,6 +47,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
   }
+  
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -41,7 +55,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  
   private void configureButtonBindings() {
+    // Binds an ExampleCommand to be scheduled when the trigger of the example joystick is pressed
+      //exampleButton.whenPressed(new ExampleCommand());
+
   }
 
 
