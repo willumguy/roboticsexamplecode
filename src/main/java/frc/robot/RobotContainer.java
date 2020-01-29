@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.VisionCode;
+
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,11 +32,9 @@ import frc.robot.commands.MoveDistance;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
+  private final VisionCode vision = new VisionCode();
+  private final ExampleCommand m_autoCommand = new ExampleCommand();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //TANK DRIVE MOTORS
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
@@ -43,10 +43,11 @@ public class RobotContainer {
   public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1); 
   public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(2);
   public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
-
   public static final Joystick stick = new Joystick(0);
   
   public static final JoystickButton tankDriveButton = new JoystickButton(stick, 5);
+
+
 
   private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
 
