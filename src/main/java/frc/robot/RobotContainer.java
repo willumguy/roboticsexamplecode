@@ -8,10 +8,21 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
+
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.commands.MoveDistance;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -22,15 +33,45 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final VisionCode vision = new VisionCode();
-
   private final ExampleCommand m_autoCommand = new ExampleCommand();
+  public static TankDrive tankDriveSubsystem = new TankDrive(); 
+  //TANK DRIVE MOTORS
+  public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
+  public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
+  public static final WPI_TalonSRX rearLeft = new WPI_TalonSRX(6); 
+
+  public static final WPI_TalonSRX frontRight = new WPI_TalonSRX(1); 
+  public static final WPI_TalonSRX middleRight = new WPI_TalonSRX(2);
+  public static final WPI_TalonSRX rearRight = new WPI_TalonSRX(10);
+  public static final Joystick stick = new Joystick(0);
+  
+  public static final JoystickButton tankDriveButton = new JoystickButton(stick, 5);
 
 
+
+  private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
+
+  private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
+
+  public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
+  
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    RobotContainer.frontLeft.follow(RobotContainer.middleLeft);
+    RobotContainer.rearLeft.follow(RobotContainer.middleLeft);
+  
+    RobotContainer.frontLeft.setInverted(true);
+    RobotContainer.rearLeft.setInverted(true);
+    
+    RobotContainer.frontRight.follow(RobotContainer.middleRight);
+    RobotContainer.rearRight.follow(RobotContainer.middleRight); 
+
+    RobotContainer.frontRight.setInverted(true);
+    RobotContainer.rearRight.setInverted(true);
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -42,6 +83,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
   }
 
 
@@ -55,3 +97,4 @@ public class RobotContainer {
     return m_autoCommand;
   }
 }
+
