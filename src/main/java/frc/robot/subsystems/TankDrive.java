@@ -2,6 +2,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.SerialPort;
+
+
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,6 +13,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+
 
 
 
@@ -22,6 +27,9 @@ public class TankDrive extends SubsystemBase {
   //private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(0, 0.5);
 
   public final PIDController pid = new PIDController(1, 0, 0);
+
+  public static AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
+  
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
@@ -81,10 +89,17 @@ public class TankDrive extends SubsystemBase {
     }
     RobotContainer.difDrive.arcadeDrive(output, 0);
   }
+
+  public void receiveAngles() {
+    SmartDashboard.putNumber("Yaw angle", ahrs.getAngle());
+    SmartDashboard.putNumber("Roll angle", ahrs.getRoll());
+    SmartDashboard.putNumber("Pitch angle", ahrs.getPitch());
+  } 
   
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    receiveAngles();
   }
   
 

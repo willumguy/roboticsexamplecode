@@ -14,12 +14,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
-
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.commands.MoveDistance;
 
@@ -54,6 +51,8 @@ public class RobotContainer {
   private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
+
+  
   
 
   /**
