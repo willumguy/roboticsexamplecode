@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C;
 
 
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
@@ -28,13 +28,15 @@ public class TankDrive extends SubsystemBase {
 
   public final PIDController pid = new PIDController(1, 0, 0);
 
-  public static AHRS ahrs = new AHRS(SerialPort.Port.kMXP);
+  public final PIDController gyroPid = new PIDController(1, 0, 0);
+
+  public final AHRS ahrs = new AHRS();
   
 
   public TankDrive() {
     setDefaultCommand(new DriveCommand(this));
     pid.setTolerance(128); //Error is within 1/8 of a revolution
-    
+    gyroPid.setTolerance(5); //Error for turn is within 5 degrees
     
   }
 
@@ -90,10 +92,26 @@ public class TankDrive extends SubsystemBase {
     RobotContainer.difDrive.arcadeDrive(output, 0);
   }
 
+  public void turnSetpoint(double angle) {
+    gyroPid.setSetpoint(angle);  
+  }
+
+  public void updateTurn() {
+    double gyroOutput = pid.calculate(ahrs.getAngle(), gyroPid.getSetpoint());
+    if (gyroOutput > 0.4) {
+      gyroOutput = 0.4;
+    }
+    if (gyroOutput < -0.4) {
+      gyroOutput = -0.4;
+    }
+    RobotContainer.difDrive.arcadeDrive(0, gyroOutput); 
+  }
+
   public void receiveAngles() {
     SmartDashboard.putNumber("Yaw angle", ahrs.getAngle());
     SmartDashboard.putNumber("Roll angle", ahrs.getRoll());
     SmartDashboard.putNumber("Pitch angle", ahrs.getPitch());
+    SmartDashboard.putBoolean("Connected", ahrs.isConnected());
   } 
   
   @Override

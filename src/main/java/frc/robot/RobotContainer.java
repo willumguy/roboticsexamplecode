@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.commands.AutoTurn;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
 import frc.robot.subsystems.TankDrive;
@@ -43,7 +44,7 @@ public class RobotContainer {
   public static final Joystick stick = new Joystick(0);
   
   public static final JoystickButton tankDriveButton = new JoystickButton(stick, 5);
-
+  public static final JoystickButton turnButton = new JoystickButton(stick, 3);
 
 
   private static final SpeedControllerGroup leftSide = new SpeedControllerGroup(frontLeft, middleLeft, rearLeft);
@@ -83,6 +84,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     tankDriveButton.whenPressed(new MoveDistance(tankDriveSubsystem, 36));
+    turnButton.whenPressed(new AutoTurn(tankDriveSubsystem, 90));
   }
 
 
