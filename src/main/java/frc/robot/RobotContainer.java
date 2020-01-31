@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeMotor;
-import frc.robot.subsystems.OuttakeMotor;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -25,15 +25,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public final OuttakeMotor motorSub = new OuttakeMotor();
-  public final IntakeMotor imotor = new IntakeMotor();
+  
+  //public final IntakeMotor imotor = new IntakeMotor();
 
   
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   // Creates a joystick on port 1
   public final Joystick stick = new Joystick(1);
-  
+  public static final Shooter shooterSub = new Shooter();
   // Creates an XboxController on port 2.
     //XboxController exampleController = new XboxController(2); 
 

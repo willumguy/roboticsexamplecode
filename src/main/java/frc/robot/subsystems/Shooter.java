@@ -11,34 +11,45 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.MoveMotor;
+import frc.robot.commands.RunShooter;
 
-public class OuttakeMotor extends SubsystemBase {
+public class Shooter extends SubsystemBase {
   /**
    * Creates a new Motor.
    */
   private final WPI_TalonSRX motor = new WPI_TalonSRX(4);
   private final WPI_TalonSRX motor2 = new WPI_TalonSRX(6);
-  //private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.002, 5310/12.0);
-  //private final PIDController shooterpid = new PIDController(0.5,0,0);
+  private final SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.05, 12/5310.0);
+  private final PIDController shooterpid = new PIDController(0.5,0,0);
 
-
-  public OuttakeMotor() {
-    //motor2.setInverted(true);
-   setDefaultCommand(new MoveMotor(this));
+  
+  public Shooter() {
+    motor2.setInverted(true);
+    motor2.follow(motor);
+    shooterpid.setTolerance(200);
+    setDefaultCommand(new RunShooter(this, 1700));
   }
 
   public void move(double speed) {
-    /*
-    motor.setVoltage();
-    motor2.setVoltage(feedforward.calculate(speed));
-  */
-    motor.set(speed);
+    shooterpid.setSetpoint(speed);
+    double ffvalue = feedforward.calculate(speed);
+    double pidvalue = shooterpid.calculate(motor.getSelectedSensorVelocity(), speed);
+    double voltage = ffvalue+pidvalue;
+
+    SmartDashboard.putNumber("feedforward", ffvalue);
+    SmartDashboard.putNumber("pid", pidvalue);
+    SmartDashboard.putNumber("voltage", voltage);
+    SmartDashboard.putNumber("RPM", motor.getSelectedSensorVelocity()*60000);
+
+
+    motor.setVoltage(voltage);
+    
+    
   }
-  public void movemotor2(double speed){
-    motor2.set(speed);
-  }
+
+  
 
   @Override
   public void periodic() {
