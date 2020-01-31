@@ -33,9 +33,10 @@ public class RunShooter extends CommandBase {
     Motor move method only needs to be called once, 
     because when the motor speed is set, it will not change unless it is set again
 
-    Sets motor speed to 50%
+    
 
     */
+    motorSub.startShooting();
     
   }
 
@@ -48,8 +49,7 @@ public class RunShooter extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //Set the motor speed back to 0% (stop) when command is finished
-    
+    motorSub.stopShooting();
   }
 
   // Returns true when the command should end.
