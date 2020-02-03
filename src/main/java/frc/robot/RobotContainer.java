@@ -54,6 +54,13 @@ public class RobotContainer {
   private static final SpeedControllerGroup rightSide = new SpeedControllerGroup(frontRight, middleRight, rearRight);
 
   public static final DifferentialDrive difDrive = new DifferentialDrive(leftSide, rightSide);
+
+  //INDEXER MOTORS
+
+  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(14);
+  public static final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(10);
+  public static final WPI_TalonSRX indexerReverseMotor = new WPI_TalonSRX(9);
+  
   
 
   /**
