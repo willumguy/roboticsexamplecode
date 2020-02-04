@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.VisionCode;
-
+import frc.robot.subsystems.IRSensor;
 //import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.TankDrive;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,9 +32,10 @@ import frc.robot.commands.MoveDistance;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final VisionCode vision = new VisionCode();
+  //private final VisionCode vision = new VisionCode();
   private final ExampleCommand m_autoCommand = new ExampleCommand();
   public static TankDrive tankDriveSubsystem = new TankDrive(); 
+  public static IRSensor sensor = new IRSensor();
   //TANK DRIVE MOTORS
   public static final WPI_TalonSRX frontLeft = new WPI_TalonSRX(4); 
   public static final WPI_TalonSRX middleLeft = new WPI_TalonSRX(5); 
