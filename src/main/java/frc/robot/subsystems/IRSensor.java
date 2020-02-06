@@ -33,9 +33,9 @@ public class IRSensor extends SubsystemBase{
   int LEDPIN = 13;
   int SENSORPIN = 4;
 
-  DigitalInput IRCount = new DigitalInput(8);
-  DigitalInput IRIntake = new DigitalInput(12);
-  DigitalInput IROutake = new DigitalInput(11);
+  DigitalInput IRCount = new DigitalInput(9);
+  DigitalInput IRIntake = new DigitalInput(5);
+  DigitalInput IROutake = new DigitalInput(7);
   int count = 0;
   Boolean LastValue = true;
   Boolean OuttakeValue = true;
@@ -45,20 +45,19 @@ public class IRSensor extends SubsystemBase{
   
     //local variable #
    //local variable name
-   count = 0;
     if(!IRCount.get()) { 
         //Roller Begins to Move
         //Counts # of new balls in the indexer
       if(LastValue == true) {
         count++;    
-
+        RobotContainer.indexerMotor.set(0.5);
+        //RobotContainer.indexerReverseMotor.set(-0.5);
       } 
 
       LastValue = IRCount.get();
-      RobotContainer.indexerMotor.set(0.5);
-      RobotContainer.indexerReverseMotor.set(-0.5);
+      
     }
-        
+    /*
     if(!(IRIntake.get())){
       //Roller Stops and hold the ball in the first position
       RobotContainer.indexerMotor.set(0);
@@ -75,7 +74,7 @@ public class IRSensor extends SubsystemBase{
       
     }
         
-    
+    */
     SmartDashboard.putNumber("Number of Balls: ", count);
     LastValue = IRCount.get();
   }
