@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.SpinNum;
+import frc.robot.commands.Spintocolor;
 import frc.robot.subsystems.ColorSensor;
 import frc.robot.subsystems.ControlPanelMotor;
 
@@ -23,8 +25,10 @@ import frc.robot.subsystems.ControlPanelMotor;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
+
+  
   public final static ColorSensor colorSensorSub= new ColorSensor();
-  public final static ControlPanelMotor controlpanelSub = new ControlPanelMotor();
+  public final static ControlPanelMotor m_controlpanelsub = new ControlPanelMotor();
   
   
   /**
@@ -42,19 +46,13 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   public static Joystick mainstick = new Joystick(0);
-  JoystickButton select = new JoystickButton(mainstick,1);
-  JoystickButton red = new JoystickButton(mainstick,1);
-  JoystickButton green = new JoystickButton(mainstick,1);
-  JoystickButton blue = new JoystickButton(mainstick,1);
-  JoystickButton yellow = new JoystickButton(mainstick,1);
+  public static JoystickButton SpinNumButton = new JoystickButton(mainstick,5);
+  public static JoystickButton SpintocolorButton = new JoystickButton(mainstick,3);
+
 
   private void configureButtonBindings() {
-    /*
-    red.whileHeld();
-    green.whileHeld();
-    blue.whileHeld();
-    yellow.whileHeld();
-    */
+    SpintocolorButton.whenPressed(new Spintocolor(m_controlpanelsub), false);
+    SpinNumButton.whenPressed(new SpinNum(m_controlpanelsub), false);
   }
 
 

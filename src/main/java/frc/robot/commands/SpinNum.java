@@ -8,23 +8,28 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ControlPanelMotor;
 
-public class ExampleCommand extends CommandBase {
-  /**
-   * Creates a new ExampleCommand.
-   */
-  public ExampleCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+public class SpinNum extends CommandBase {
 
   // Called when the command is initially scheduled.
+  public static ControlPanelMotor subsystem;
+  char startingcolor;
+  public SpinNum(ControlPanelMotor sub){
+    subsystem = sub;
+    addRequirements(subsystem);
+  }
+  
   @Override
   public void initialize() {
+    startingcolor = RobotContainer.colorSensorSub.getColorChar();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +40,6 @@ public class ExampleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return RobotContainer.m_controlpanelsub.Spinnumber(5, startingcolor);
   }
 }

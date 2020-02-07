@@ -50,7 +50,6 @@ public class ColorSensor extends SubsystemBase {
      * Run the color match algorithm on our detected color
      */
     
-    String altcolorString;
     
 
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
@@ -93,6 +92,7 @@ public class ColorSensor extends SubsystemBase {
     }
 
     
+    
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the 
      * sensor.
@@ -130,6 +130,4 @@ public class ColorSensor extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
-  
 }
