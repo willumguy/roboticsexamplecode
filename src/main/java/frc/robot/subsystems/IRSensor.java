@@ -23,60 +23,44 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /** 
  * Add your docs here.
  */
-
-
 public class IRSensor extends SubsystemBase{
-    
-    
 
-    
   int LEDPIN = 13;
   int SENSORPIN = 4;
 
   DigitalInput IRCount = new DigitalInput(9);
-  DigitalInput IRIntake = new DigitalInput(5);
-  DigitalInput IROutake = new DigitalInput(7);
+  DigitalInput IRIntake = new DigitalInput(6);
+  DigitalInput IROutake = new DigitalInput(1);
   int count = 0;
   Boolean LastValue = true;
   Boolean OuttakeValue = true;
-
     
   public void setup(){
-  
-    //local variable #
-   //local variable name
     if(!IRCount.get()) { 
-        //Roller Begins to Move
-        //Counts # of new balls in the indexer
+    //Roller Begins to Move; Counts # of new balls in the indexer
+     RobotContainer.indexerMotor.set(0.5);
+     RobotContainer.indexerReverseMotor.set(-0.5);
       if(LastValue == true) {
         count++;    
-        RobotContainer.indexerMotor.set(0.5);
-        //RobotContainer.indexerReverseMotor.set(-0.5);
       } 
-
-      LastValue = IRCount.get();
-      
-    }
-    /*
+    } 
     if(!(IRIntake.get())){
       //Roller Stops and hold the ball in the first position
       RobotContainer.indexerMotor.set(0);
       RobotContainer.indexerReverseMotor.set(0);
-      
     }
-
     if  (!(IROutake.get())){
       //counts the # of balls exiting
       if(OuttakeValue = true){
         count--; 
       }
       OuttakeValue = IROutake.get();
-      
     }
         
-    */
+  
     SmartDashboard.putNumber("Number of Balls: ", count);
     LastValue = IRCount.get();
+    OuttakeValue = IROutake.get();
   }
     
   @Override
@@ -86,12 +70,3 @@ public class IRSensor extends SubsystemBase{
   }
 
 }
-
-
-
-
-
-  //intialize the LED pin as an output:
-  
-
-

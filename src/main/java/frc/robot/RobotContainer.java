@@ -58,9 +58,9 @@ public class RobotContainer {
 
   //INDEXER MOTORS
 
-  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(9);
-  public static final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(4);
-  public static final WPI_TalonSRX indexerReverseMotor = new WPI_TalonSRX(5);
+  public static final WPI_TalonSRX intakeMotor = new WPI_TalonSRX(6);
+  public static final WPI_TalonSRX indexerMotor = new WPI_TalonSRX(3);
+  public static final WPI_TalonSRX indexerReverseMotor = new WPI_TalonSRX(1);
   
   
 
